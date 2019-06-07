@@ -7,17 +7,15 @@
 struct WORD
 {
 	string word;
-	int noOfAppearances;
+	int wordInfo;
 	WORD* next;
 };
 
 const int tableSize = 104729;
 const int prime = 31;
 
-vector<WORD*> hashtable(tableSize);
-
 //Computes the hash key of a string by using a rolling polynomial hash function
-long long compute_hashKey(string inpStr) {
+long long compute_hashKey(string inpStr, vector<WORD*> hashtable) {
 	long long hash_key = 0;
 	long long power = 1;
 
@@ -31,17 +29,17 @@ long long compute_hashKey(string inpStr) {
 
 //Inserts a string into the hash table.
 //Uses chaining if two strings have the same hash key.
-void insert(string inpStr) {
+void insert(string inpStr, vector<WORD*> hashtable) {
 	
 	//Calculates the hash key
-	long long hash_key = compute_hashKey(inpStr);
+	long long hash_key = compute_hashKey(inpStr, hashtable);
 
 	//If there is nothing at that index, insert the new word
 	if (hashtable[hash_key] == NULL)  {
 
 		WORD* newWord = new WORD;
 		newWord->word = inpStr;
-		newWord->noOfAppearances = 1;
+		newWord->wordInfo = 1;
 		newWord->next = NULL;
 
 		hashtable[hash_key] = newWord;
@@ -58,7 +56,7 @@ void insert(string inpStr) {
 		{
 			//If the word is found, do not chain
 			if (temp->word.compare(inpStr) == 0) {
-				temp->noOfAppearances++;
+				temp->wordInfo++;
 				found = true;
 			}
 			else {
@@ -70,7 +68,7 @@ void insert(string inpStr) {
 		if (found != true) {
 			WORD* newWord = new WORD;
 			newWord->word = inpStr;
-			newWord->noOfAppearances = 1;
+			newWord->wordInfo = 1;
 			newWord->next = NULL;
 
 			temp->next = newWord;
@@ -79,8 +77,8 @@ void insert(string inpStr) {
 }
 
 //Finds the number of times a specific word has been inputed into the hash table
-int findNumAppearances(string inpStr) {
-	long long hash_key = compute_hashKey(inpStr);
+int findNumAppearances(string inpStr, vector<WORD*> hashtable) {
+	long long hash_key = compute_hashKey(inpStr, hashtable);
 
 	//If the word has not be inputed, return 0
 	if (hashtable[hash_key] == NULL) {
@@ -96,7 +94,7 @@ int findNumAppearances(string inpStr) {
 		while (temp != NULL && numAppearances == 0)
 		{
 			if (temp->word.compare(inpStr) == 0) {
-				numAppearances = temp->noOfAppearances;
+				numAppearances = temp->wordInfo;
 			}
 			else {
 				temp = temp->next;
