@@ -10,12 +10,20 @@ vector<string> getWordsFromFile(string fileName) {
 	ifstream file;
 	file.open(fileName);
 	
-	string temp;
+	string readString;
 
 	if(file.is_open()) {
-		while (file >> temp)
+		while (file >> readString)
 		{
-			wordList.push_back(formatString(temp));
+			string formatedString = formatString(readString);
+			if (formatedString.at(formatedString.length() - 1) == '.') {
+				wordList.push_back(formatedString);
+				wordList.push_back(".");
+			}
+			else {
+				wordList.push_back(formatedString);
+			}
+			
 		}
 	}
 	else {
@@ -32,7 +40,10 @@ string formatString(string input) {
 	string output;
 
 	for (size_t i = 0; i < input.size(); i++) {
-		if (isalnum(input[i])) {
+		if (input[i] == '.' && i == input.size() - 1) {
+			output += '.';
+		}
+		else if (isalnum(input[i])) {
 			output += tolower(input[i]);
 		}
 	}
