@@ -3,9 +3,12 @@
 //Description: Reads text file, parses words, and returns a vector of strings
 
 #include "readFile.h"
+#include "hashTable.h"
 
-//Reads a file and adds each word to a vector
-vector<string> getWordsFromFile(string fileName) {
+//Reads a file and a outputs each word to the specified output
+//If userInputFlag is true, each word is added to a vector and organized in sentences
+//If userInputFlag is false, each word is added to the hash table
+void formatedReadFile(string fileName, bool userInputFlag, hashTable table) {
 	
 	ifstream file;
 	file.open(fileName);
@@ -15,13 +18,22 @@ vector<string> getWordsFromFile(string fileName) {
 	if(file.is_open()) {
 		while (file >> readString)
 		{
+			
 			string formatedString = formatString(readString);
-			if (formatedString.at(formatedString.length() - 1) == '.') {
-				wordList.push_back(formatedString);
-				wordList.push_back(".");
+			
+			if (userInputFlag) {
+				//Checks if there is a '.' at the end of the word
+				//If so, adds a period to the vector to organize words by sentence
+				if (readString.at(readString.length() - 1) == '.') {
+					userInputWordList.push_back(formatedString);
+					userInputWordList.push_back(".");
+				}
+				else {
+					userInputWordList.push_back(formatedString);
+				}
 			}
 			else {
-				wordList.push_back(formatedString);
+				table.insert(formatedString);
 			}
 			
 		}
@@ -32,22 +44,19 @@ vector<string> getWordsFromFile(string fileName) {
 	
 	file.close();
 
-	return wordList;
+	return;
 }
 
 //Formats a string to be all lowercase and contain only alphanumeric characters
 string formatString(string input) {
-	string output;
+	string formattedOutput = "";
 
 	for (size_t i = 0; i < input.size(); i++) {
-		if (input[i] == '.' && i == input.size() - 1) {
-			output += '.';
-		}
-		else if (isalnum(input[i])) {
-			output += tolower(input[i]);
+		if (isalnum(input[i])) {
+			formattedOutput += tolower(input[i]);
 		}
 	}
 
-	return output;
+	return formattedOutput;
 }
 

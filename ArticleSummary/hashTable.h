@@ -2,16 +2,25 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
 
-struct WORD
-{
-	string word;
-	int wordInfo;
-	WORD* next;
-};
+class hashTable {
 
-long long compute_hashKey(string inpStr, vector<WORD*> hashtable);
-void insert(string inpStr, vector<WORD*> hashtable);
-int findNumAppearances(string inpStr, vector<WORD*> hashtable);
+public:
+
+	struct WORD
+	{
+		string word;
+		int wordInfo;
+		WORD* next;
+	};
+
+	vector<WORD*> table;
+
+	hashTable();
+
+	long long compute_hashKey(string inpStr);
+	void insert(string inpStr);
+	int findNumAppearances(string inpStr);
+
+};

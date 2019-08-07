@@ -9,8 +9,8 @@
 
 using namespace std;
 
-vector<string> wordList;
+vector<string> userInputWordList;
 
-vector<string> getWordsFromFile(string fileName);
+void formatedReadFile(string fileName, bool userInputFlag, hashTable table);
 
 string formatString(string input);

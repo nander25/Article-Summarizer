@@ -11,17 +11,21 @@ struct WORD
 	WORD* next;
 };
 
-const int tableSize = 104729;
-const int prime = 31;
+const int TABLESIZE = 104729;
+const int PRIME = 31;
+
+hashTable::hashTable() {
+	table.resize(TABLESIZE);
+}
 
 //Computes the hash key of a string by using a rolling polynomial hash function
-long long compute_hashKey(string inpStr, vector<WORD*> hashtable) {
+long long hashTable::compute_hashKey(string inpStr) {
 	long long hash_key = 0;
 	long long power = 1;
 
 	for (int i = 0; i < inpStr.length(); i++) {
-		hash_key = (hash_key + (inpStr[i] - 'a' + 1) * power) % tableSize;
-		power = (power * prime) % tableSize;
+		hash_key = (hash_key + (inpStr[i] - 'a' + 1) * power) % TABLESIZE;
+		power = (power * PRIME) % TABLESIZE;
 	}
 
 	return hash_key;
@@ -29,27 +33,27 @@ long long compute_hashKey(string inpStr, vector<WORD*> hashtable) {
 
 //Inserts a string into the hash table.
 //Uses chaining if two strings have the same hash key.
-void insert(string inpStr, vector<WORD*> hashtable) {
+void hashTable::insert(string inpStr) {
 	
 	//Calculates the hash key
-	long long hash_key = compute_hashKey(inpStr, hashtable);
+	long long hash_key = compute_hashKey(inpStr);
 
 	//If there is nothing at that index, insert the new word
-	if (hashtable[hash_key] == NULL)  {
+	if (table[hash_key] == NULL)  {
 
 		WORD* newWord = new WORD;
 		newWord->word = inpStr;
 		newWord->wordInfo = 1;
 		newWord->next = NULL;
 
-		hashtable[hash_key] = newWord;
+		table[hash_key] = newWord;
 	}
 	//Otherwise, search to see if the word exists already, or if chaining is necessary.
 	else {
 
 		bool found = false;
 
-		WORD* temp = hashtable[hash_key];
+		WORD* temp = table[hash_key];
 		
 		//Seaches for the word in the chain
 		while (temp != NULL && found != true)
@@ -77,17 +81,17 @@ void insert(string inpStr, vector<WORD*> hashtable) {
 }
 
 //Finds the number of times a specific word has been inputed into the hash table
-int findNumAppearances(string inpStr, vector<WORD*> hashtable) {
-	long long hash_key = compute_hashKey(inpStr, hashtable);
+int hashTable::findNumAppearances(string inpStr) {
+	long long hash_key = compute_hashKey(inpStr);
 
 	//If the word has not be inputed, return 0
-	if (hashtable[hash_key] == NULL) {
+	if (table[hash_key] == NULL) {
 		return 0;
 	}
 
 	//Searches the chain for the word
 	else {
-		WORD* temp = hashtable[hash_key];
+		WORD* temp = table[hash_key];
 
 		int numAppearances = 0;
 

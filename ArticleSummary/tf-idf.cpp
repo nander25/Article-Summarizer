@@ -5,20 +5,22 @@
 #include "tf-idf.h"
 #include "hashTable.h"
 
-
-double calculateTermFreq(string inpStr, int totalTerms, vector<WORD*> hashtable) {
-	int numSpecificTerm = findNumAppearances(inpStr, hashtable);
+//Finds the number of times a term appears within the original article
+//Normalizes this by diving by the total number of terms
+double calculateTermFreq(string inpStr, int totalTerms, hashTable articleTable) {
+	int numSpecificTerm = articleTable.findNumAppearances(inpStr);
 
 	return (double) numSpecificTerm / (double) totalTerms;
 }
 
-double calculateInvDocFreq(string inpStr, int totalTerms, vector<WORD*> hashtable) {
-	int numSpecificTerm = findNumAppearances(inpStr, hashtable);
+//Finds the inverse of how frequently a term appears within the corpus
+double calculateInvDocFreq(string inpStr, int totalTerms, hashTable corpusTable) {
+	int numSpecificTerm = corpusTable.findNumAppearances(inpStr);
 	
 	return log((double) totalTerms / (double) numSpecificTerm);
 }
 
-//Finds the tf-idf for a word (tf-idf = tf * idf)
-int tfidf(string inpStr, int articleTerms, int corpusTerms, vector<WORD*> articletable, vector<WORD*> corpustable) {
-	return calculateTermFreq(inpStr, articleTerms, articletable) * calculateInvDocFreq(inpStr, corpusTerms, corpustable);
+//Finds the tf-idf for a word (tf-idf = term frequency * inverse document frequency)
+int tfidf(string inpStr, int articleTerms, int corpusTerms, hashTable articleTable, hashTable corpusTable) {
+	return calculateTermFreq(inpStr, articleTerms, articleTable) * calculateInvDocFreq(inpStr, corpusTerms, corpusTable);
 }
