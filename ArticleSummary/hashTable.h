@@ -4,6 +4,10 @@
 
 using namespace std;
 
+/*
+The hashTable class contains the functionality for storing
+and retrieving strings in O(1) time. 
+*/
 class hashTable {
 
 public:

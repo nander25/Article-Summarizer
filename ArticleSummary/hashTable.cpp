@@ -14,11 +14,19 @@ struct WORD
 const int TABLESIZE = 104729;
 const int PRIME = 31;
 
+/*
+Default Constructor
+Initializes data structure to set size
+*/
 hashTable::hashTable() {
 	table.resize(TABLESIZE);
 }
 
-//Computes the hash key of a string by using a rolling polynomial hash function
+
+/*
+Uses a rolling polynomial hash function to calculate the hash 
+key of a string.
+*/
 long long hashTable::compute_hashKey(string inpStr) {
 	long long hash_key = 0;
 	long long power = 1;
@@ -31,14 +39,16 @@ long long hashTable::compute_hashKey(string inpStr) {
 	return hash_key;
 }
 
-//Inserts a string into the hash table.
-//Uses chaining if two strings have the same hash key.
+/*
+Inserts a string into the hash table.
+Uses chaining if two strings have the same hash key.
+*/
 void hashTable::insert(string inpStr) {
 	
 	//Calculates the hash key
 	long long hash_key = compute_hashKey(inpStr);
 
-	//If there is nothing at that index, insert the new word
+	//Adds the word to the table using chaining
 	if (table[hash_key] == NULL)  {
 
 		WORD* newWord = new WORD;
@@ -48,7 +58,6 @@ void hashTable::insert(string inpStr) {
 
 		table[hash_key] = newWord;
 	}
-	//Otherwise, search to see if the word exists already, or if chaining is necessary.
 	else {
 
 		bool found = false;
@@ -56,9 +65,9 @@ void hashTable::insert(string inpStr) {
 		WORD* temp = table[hash_key];
 		
 		//Seaches for the word in the chain
+		//Adds the word if it is found
 		while (temp != NULL && found != true)
 		{
-			//If the word is found, do not chain
 			if (temp->word.compare(inpStr) == 0) {
 				temp->wordInfo++;
 				found = true;
@@ -80,7 +89,10 @@ void hashTable::insert(string inpStr) {
 	}
 }
 
-//Finds the number of times a specific word has been inputed into the hash table
+/*
+Finds the number of times a specific word has been inputed
+into the hash table.
+*/
 int hashTable::findNumAppearances(string inpStr) {
 	long long hash_key = compute_hashKey(inpStr);
 
