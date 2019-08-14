@@ -3,7 +3,7 @@
 //Description: Uses the TF-IDF algorithm to find a rating for each word
 
 #include "tf-idf.h"
-#include "hashTable.h"
+
 
 double calculateTermFreq(string inpStr, int totalTerms, hashTable articleTable) {
 	int numSpecificTerm = articleTable.findNumAppearances(inpStr);

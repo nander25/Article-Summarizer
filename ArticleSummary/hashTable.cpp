@@ -27,7 +27,7 @@ hashTable::hashTable() {
 Uses a rolling polynomial hash function to calculate the hash 
 key of a string.
 */
-long long hashTable::compute_hashKey(string inpStr) {
+int hashTable::compute_hashKey(string inpStr) {
 	long long hash_key = 0;
 	long long power = 1;
 
@@ -36,7 +36,7 @@ long long hashTable::compute_hashKey(string inpStr) {
 		power = (power * PRIME) % TABLESIZE;
 	}
 
-	return hash_key;
+	return (int)hash_key;
 }
 
 /*

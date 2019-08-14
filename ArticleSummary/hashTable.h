@@ -23,7 +23,7 @@ public:
 
 	hashTable();
 
-	long long compute_hashKey(string inpStr);
+	int compute_hashKey(string inpStr);
 	void insert(string inpStr);
 	int findNumAppearances(string inpStr);
 

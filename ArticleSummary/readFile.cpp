@@ -3,13 +3,12 @@
 //Description: Reads text file, parses words, and returns a vector of strings
 
 #include "readFile.h"
-#include "hashTable.h"
 
 
-void formatedReadFile(string fileName, bool userInputFlag, hashTable table) {
+void formatedReadFile(string fileName, bool userInputFlag, hashTable *table, vector<string> userInputWordList) {
 	
-	ifstream file;
-	file.open(fileName);
+	ifstream file(fileName);
+
 	
 	string readString;
 
@@ -31,7 +30,7 @@ void formatedReadFile(string fileName, bool userInputFlag, hashTable table) {
 				}
 			}
 			else {
-				table.insert(formatedString);
+				table->insert(formatedString);
 			}
 			
 		}
@@ -54,6 +53,8 @@ string formatString(string input) {
 			formattedOutput += tolower(input[i]);
 		}
 	}
+
+	cout << formattedOutput << "\n";
 
 	return formattedOutput;
 }
