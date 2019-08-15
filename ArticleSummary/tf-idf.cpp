@@ -5,20 +5,20 @@
 #include "tf-idf.h"
 
 
-double calculateTermFreq(string inpStr, int totalTerms, hashTable articleTable) {
-	int numSpecificTerm = articleTable.findNumAppearances(inpStr);
+double calculateTermFreq(string inpStr, int totalTerms, hashTable *articleTable) {
+	int numSpecificTerm = articleTable->findNumAppearances(inpStr);
 
 	return (double) numSpecificTerm / (double) totalTerms;
 }
 
 
-double calculateInvDocFreq(string inpStr, int totalTerms, hashTable corpusTable) {
-	int numSpecificTerm = corpusTable.findNumAppearances(inpStr);
+double calculateInvDocFreq(string inpStr, int totalTerms, hashTable *corpusTable) {
+	int numSpecificTerm = corpusTable->findNumAppearances(inpStr);
 	
 	return log((double) totalTerms / (double) numSpecificTerm);
 }
 
 
-int tfidf(string inpStr, int articleTerms, int corpusTerms, hashTable articleTable, hashTable corpusTable) {
-	return calculateTermFreq(inpStr, articleTerms, articleTable) * calculateInvDocFreq(inpStr, corpusTerms, corpusTable);
+double tfidf(string inpStr, hashTable *articleTable, hashTable *corpusTable) {
+	return calculateTermFreq(inpStr, articleTable->getWordCount(), articleTable) * calculateInvDocFreq(inpStr, corpusTable->getWordCount(), corpusTable);
 }

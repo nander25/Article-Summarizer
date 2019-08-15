@@ -5,12 +5,13 @@
 #include "readFile.h"
 
 
-void formatedReadFile(string fileName, bool userInputFlag, hashTable *table, vector<string> userInputWordList) {
+void formatedReadFile(string fileName, bool userInputFlag, hashTable *table, vector<SENTENCE*> userInputWordList) {
 	
 	ifstream file(fileName);
-
 	
 	string readString;
+	bool endOfSentence = true;
+	SENTENCE* currentWord;
 
 	if(file.is_open()) {
 		while (file >> readString)
@@ -21,17 +22,31 @@ void formatedReadFile(string fileName, bool userInputFlag, hashTable *table, vec
 			if (userInputFlag) {
 				//Checks if there is a '.' at the end of the word
 				//If so, adds a period to the vector to organize words by sentence
-				if (readString.at(readString.length() - 1) == '.') {
-					userInputWordList.push_back(formatedString);
-					userInputWordList.push_back(".");
+
+				SENTENCE *newWord = new SENTENCE;
+				SENTENCE *currentWord = newWord;
+				newWord->word = readString;
+				newWord->rating = 0;
+
+				if (endOfSentence) {
+					userInputWordList.push_back(newWord);
+					currentWord = newWord;
 				}
 				else {
-					userInputWordList.push_back(formatedString);
+					currentWord->nextWord = newWord;
+					currentWord = newWord;
+				}
+
+				if (readString.at(readString.length() - 1) == '.') {
+					endOfSentence = true;
+				}
+				else {
+					endOfSentence = false;
 				}
 			}
-			else {
-				table->insert(formatedString);
-			}
+			
+			table->insert(formatedString);
+
 			
 		}
 	}

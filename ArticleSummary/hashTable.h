@@ -21,10 +21,12 @@ public:
 
 	vector<WORD*> table;
 
+	int wordCount;
+
 	hashTable();
 
+	int getWordCount();
 	int compute_hashKey(string inpStr);
 	void insert(string inpStr);
 	int findNumAppearances(string inpStr);
-
 };

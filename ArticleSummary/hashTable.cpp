@@ -20,8 +20,15 @@ Initializes data structure to set size
 */
 hashTable::hashTable() {
 	table.resize(TABLESIZE);
+	wordCount = 0;
 }
 
+/*
+Returns the total number of words in the table.
+*/
+int hashTable::getWordCount() {
+	return wordCount;
+}
 
 /*
 Uses a rolling polynomial hash function to calculate the hash 
@@ -87,6 +94,8 @@ void hashTable::insert(string inpStr) {
 			temp->next = newWord;
 		}
 	}
+
+	wordCount++;
 }
 
 /*
