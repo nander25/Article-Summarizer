@@ -7,10 +7,14 @@
 #include <string>
 #include <algorithm>
 #include "hashTable.h"
-#include "main.h"
 
 
-
+struct SENTENCE
+{
+	string word;
+	double rating;
+	SENTENCE* nextWord;
+};
 
 /*
 Reads a file and a outputs each word to the specified output.

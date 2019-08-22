@@ -101,21 +101,32 @@ void loadArticle(fs::path filePath, hashTable *articleTable, hashTable *corpusTa
 			cout << "File found\n";
 			formatedReadFile(filePath.string(), true, articleTable, articleList);
 
+			//Calculate the total TF-IDF score for each sentence.
 			for (int i = 0; i < articleList.size(); i++) {
 
 				SENTENCE *firstWord = articleList.at(i);
 				SENTENCE *iterator = articleList.at(i);
 
 				while (iterator->nextWord != NULL) {
-					firstWord->rating += tfidf(iterator->word, articleTable, corpusTable);
+					firstWord->rating += tfidf(formatString(iterator->word), articleTable, corpusTable);
 					iterator = iterator->nextWord;
 				}
 			}
 
+			//Find the highest rated sentence
+			SENTENCE *largest = articleList.at(0);
+			for (int j = 1; j < articleList.size(); j++) {
+				if (articleList.at(j)->rating > largest->rating) {
+					largest = articleList.at(j);
+				}
+			}
 
-
-
-
+			//Print the highest rated sentence
+			while (largest->nextWord != NULL) {
+				cout << largest->word << " ";
+				largest->nextWord = largest;
+			}
+			
 
 		}
 		else

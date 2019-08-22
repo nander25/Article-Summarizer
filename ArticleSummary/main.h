@@ -9,12 +9,7 @@
 
 namespace fs = std::experimental::filesystem;
 
-struct SENTENCE
-{
-	string word;
-	double rating;
-	SENTENCE* nextWord;
-};
+
 
 int main();
 void printMenu();
